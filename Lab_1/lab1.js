@@ -13,7 +13,7 @@ let gpsCoordinates = [[40.7128, -74.0060]];
 //Date: Timestamp of the data collection
 let timeStamp = new Date(); //current date and time
 
-let openRequest = window.indexedDB.open("AgricultureDB", 2);
+let openRequest = indexedDB.open("AgricultureDB", 2);
 
 openRequest.onupgradeneeded = (event)  => {
   let db = event.target.result;
@@ -26,7 +26,7 @@ openRequest.onerror = function() {
     console.error("Error", openRequest.error);
   }
   
-  openRequest.onsuccess = (event) => {
+    openRequest.onsuccess = (event) => {
     let db = event.target.result;
     console.log("Success", db);
 
@@ -38,7 +38,7 @@ openRequest.onerror = function() {
 
     let getRequest = farmStore.get(1);
 
-    getRequest.onsuccess = (event) => {
+     getRequest.onsuccess = (event) => {
         let farmDataRequest = event.target.result;
         console.log('Sensor Readings:- ', farmDataRequest.sensorReadings.map(reading => reading.join('\u2103, ') + '%') + [' type:- '] + typeof farmDataRequest.sensorReadings[0][0]);
         console.log('Crop Image:- ', farmDataRequest.cropImages + [' type:- '] + typeof farmDataRequest.cropImages[0]);
@@ -51,6 +51,8 @@ openRequest.onerror = function() {
         db.close();
     };
   }
+
+  module.exports = {sensorReadings, cropImages, farmerNote, gpsCoordinates, timeStamp};
 
 
 
